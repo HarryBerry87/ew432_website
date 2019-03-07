@@ -1,0 +1,42 @@
+html, body {
+  font-family: sans-serif;
+  color: #5a6268;
+  text-align: center;
+  line-height: 1.2;
+  font-weight: 100;
+  background-color: cadetblue;
+}
+
+h1, h2, h3 {
+  font-family: 'Roboto', sans-serif;
+  text-transform: lowercase;
+  font-style: italic;
+  font-weight: 400;
+  color: dodgerblue;
+}
+
+.jumbotron {
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+  margin-left: 5rem;
+  margin-right: 5rem;
+  margin-inside: 2rem;
+  margin-outside: 2rem;
+  background-color: #e9ecef;
+  border-radius: 5rem;
+}
+
+.button {
+  color: #fff;
+  background: #000;
+  padding: 10px 40px;
+  text-decoration: none;
+  font-style: italic;
+  transition: background .5s;
+}
+
+.button:hover {
+  background: darkred;
+  cursor: pointer;
+  transition: background .5s;
+}
