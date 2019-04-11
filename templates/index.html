@@ -8,10 +8,14 @@
       <h1 class="display">Welcome to my Webpage</h1>
       <p class="lead">My name is Harrison Kubena, and you're watching Disney.</p>
       <hr>
+      <p> Inside, the current temperature is {{temp_in}}C with a humidity of {{humd_in}}%</p>
+      <p> Outside, the current temperature is {{temp_out}}C with a humidity of {{humd_out}}%</p>
     </div>
-    <p>
-      <a class="button" href="/about">Would you like to know more?</a>
-      <a class="button" href="/album">Would you like to see more?</a>
-    </p>
+    <form action="/message" method="post">
+      Leave a message on the LCD:<br>
+      <input type="text" name="msg" value="Hello World" width="16">
+      <br><br>
+      <input class ="button" type="submit" value="Submit">
+    </form>
   </body>
 </html>
