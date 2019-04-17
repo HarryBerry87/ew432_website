@@ -1,6 +1,5 @@
 from flask import Flask, render_template, redirect, request, jsonify
 import serial
-import json
 import requests
 
 app = Flask(__name__)
@@ -47,6 +46,8 @@ def get_data():
     msg = s.readline().decode("ascii").strip().split(",")
     temp_in = str(msg[0])
     humd_in = str(msg[1])
+    # temp_in = 99
+    # humd_in = 99
     r = requests.get(
         'https://api.openweathermap.org/data/2.5/weather?q=Annapolis&appid=59398f41b4b9294d47cfd27e177d3062')
     vals = r.json()
@@ -57,4 +58,13 @@ def get_data():
     humd_out = str(humd)
     return temp_in, humd_in, temp_out, humd_out
 
-app.run(host="0.0.0.0", port=8000, debug=True, use_reloader=False)
+def get_remote_data():
+    resp = requests.get("https:localhost:5001/data.json")
+    vals = resp.json()
+    temp_in = vals['temp_in']
+    humd_in = vals['humd_in']
+    temp_out = vals['temp_out']
+    humd_out = vals['humd_out']
+    return temp_in, humd_in, temp_out, humd_out
+
+app.run(host="0.0.0.0", port=5000, debug=True, use_reloader=False)
