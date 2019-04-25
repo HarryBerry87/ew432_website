@@ -8,21 +8,13 @@ s = serial.Serial("COM9", 9600)
 
 @app.route("/")
 def index():
-    temp_in, humd_in, temp_out, humd_out = get_data()
-    return render_template('index.html', temp_in=temp_in, humd_in=humd_in, temp_out=temp_out, humd_out=humd_out)
+    temp_in, humd_in, temp_out, humd_out, butt_state = get_data()
+    return render_template('index.html', temp_in=temp_in, humd_in=humd_in, temp_out=temp_out, humd_out=humd_out, butt_state=butt_state)
 
 
-@app.route("/turn_on")
-def led_on():
-    s.write("B".encode("ascii"))
-    s.readline()
-    return redirect("/")
-
-
-@app.route("/turn_off")
-def led_off():
-    s.write("C".encode("ascii"))
-    s.readline()
+@app.route("/toggle_LED")
+def led_tog():
+    s.write("L".encode("ascii"))
     return redirect("/")
 
 
@@ -35,10 +27,17 @@ def message():
     return redirect("/")
 
 
+@app.route("/rem_message", methods=['POST'])
+def remote_message():
+    msg = request.form['msg']
+    requests.post('http://localhost:5000/message', data={'msg': msg})
+    return redirect("/")
+
+
 @app.route("/data.json", methods=['GET'])
 def json_data():
     dat = get_data()
-    return jsonify(temp_in=dat[0], humd_in=dat[1], temp_out=dat[2], humd_out=dat[3])
+    return jsonify(temp_in=dat[0], humd_in=dat[1], temp_out=dat[2], humd_out=dat[3], butt_state=dat[4])
 
 
 def get_data():
@@ -56,15 +55,18 @@ def get_data():
     temp_out ="%.2f"%temp
     humd = vals['main']['humidity']
     humd_out = str(humd)
-    return temp_in, humd_in, temp_out, humd_out
+    s.write("B".encode("ascii"))
+    butt_state = s.readline().decode("ascii").strip()
+    return temp_in, humd_in, temp_out, humd_out, butt_state
 
 def get_remote_data():
-    resp = requests.get("https:localhost:5001/data.json")
+    resp = requests.get("http://localhost:5001/data.json")
     vals = resp.json()
     temp_in = vals['temp_in']
     humd_in = vals['humd_in']
     temp_out = vals['temp_out']
     humd_out = vals['humd_out']
-    return temp_in, humd_in, temp_out, humd_out
+    butt_state = vals['butt_state']
+    return temp_in, humd_in, temp_out, humd_out, butt_state
 
 app.run(host="0.0.0.0", port=5000, debug=True, use_reloader=False)

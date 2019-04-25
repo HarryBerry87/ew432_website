@@ -10,12 +10,22 @@
       <hr>
       <p> Inside, the current temperature is {{temp_in}}C with a humidity of {{humd_in}}%</p>
       <p> Outside, the current temperature is {{temp_out}}C with a humidity of {{humd_out}}%</p>
+      <p> The button state is {{butt_state}}</p>
     </div>
-    <form action="/message" method="post">
-      Leave a message on the LCD:<br>
-      <input type="text" name="msg" value="Hello World" width="16">
-      <br><br>
-      <input class ="button" type="submit" value="Submit">
-    </form>
+    <div class="jumbotron">
+      <form action="/message" method="post">
+      <h1>Leave a message on my LCD</h1><hr>
+        <p>No more than 16 characters!</p>
+        <input type="text" name="msg" placeholder="Hello World" width="16">
+        <br><br>
+        <input class ="button" type="submit" value="Submit">
+    </form></div>
+    <div class="jumbotron">
+      <h1>Twiddle my LED!</h1><hr>
+      <form action="/toggle_LED">
+        <input class="button" type="submit" value="LED Toggle">
+      </form>
+    </div>
+
   </body>
 </html>
